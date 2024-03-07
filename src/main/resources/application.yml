@@ -1,0 +1,17 @@
+spring:
+  security:
+    user:
+      password: strongpass
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:tc:postgresql:16:///postgres?TC_DAEMON=true
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: validate
+    open-in-view: false
