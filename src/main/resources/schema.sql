@@ -13,13 +13,21 @@ create table user_password
     primary key (user_id),
     foreign key (user_id) references users (id) on delete cascade
 );
+create table authority
+(
+    id   serial not null,
+    name varchar(128),
+    primary key (id),
+    unique (name)
+);
 
 create table user_authority
 (
-    id        bigserial    not null,
-    user_id   bigint       not null,
-    authority varchar(128) not null,
+    id           bigserial not null,
+    user_id      bigint    not null,
+    authority_id int       not null,
     primary key (id),
     foreign key (user_id) references users (id) on delete cascade,
-    unique (user_id, authority)
+    foreign key (authority_id) references authority (id) on delete cascade,
+    unique (user_id, authority_id)
 )

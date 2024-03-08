@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.khvatov.learningprojects.springsecurity.entity.UserAuthorityEntity;
+import ru.khvatov.learningprojects.springsecurity.entity.AuthorityEntity;
 import ru.khvatov.learningprojects.springsecurity.repository.UserRepository;
 
 @Service
@@ -24,7 +24,7 @@ public class JpaUserDetailsService implements UserDetailsService {
                         .password(userEntity.getPasswordEntity().getPassword())
                         .authorities(
                                 userEntity.getAuthorities().stream()
-                                        .map(UserAuthorityEntity::getName)
+                                        .map(AuthorityEntity::getName)
                                         .toArray(String[]::new)
                         )
                         .build()

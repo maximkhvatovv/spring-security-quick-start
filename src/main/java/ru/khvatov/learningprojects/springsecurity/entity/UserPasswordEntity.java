@@ -1,15 +1,12 @@
 package ru.khvatov.learningprojects.springsecurity.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "user_password")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserPasswordEntity {
