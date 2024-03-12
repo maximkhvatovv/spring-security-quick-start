@@ -32,9 +32,14 @@ public class UserEntity {
     @Builder.Default
     private List<AuthorityEntity> authorities = new ArrayList<>();
 
-    public void addAuthority(final AuthorityEntity authorityEntity) {
+    public void addAuthorityEntity(final AuthorityEntity authorityEntity) {
         authorityEntity.getUsers().add(this);
         this.getAuthorities().add(authorityEntity);
+    }
+
+    public void removeAuthorityEntity(final AuthorityEntity authorityEntity) {
+        this.authorities.removeIf(authority -> authority.getId().equals(authorityEntity.getId()));
+        authorityEntity.getUsers().removeIf(user -> user.getId().equals(this.id));
     }
 
     public void setPasswordEntity(final UserPasswordEntity passwordEntity) {

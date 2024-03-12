@@ -12,3 +12,6 @@ spring:
         hbm2ddl:
           auto: validate
     open-in-view: false
+logging:
+  level:
+    org.springframework.security: trace
