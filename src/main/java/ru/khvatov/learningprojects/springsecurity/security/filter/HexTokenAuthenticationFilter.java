@@ -25,9 +25,9 @@ public class HexTokenAuthenticationFilter extends OncePerRequestFilter {
     private final SecurityContextRepository securityContextRepository =
             new RequestAttributeSecurityContextRepository();
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     public HexTokenAuthenticationFilter(final AuthenticationManager authenticationManager,
                                         final AuthenticationEntryPoint authenticationEntryPoint
@@ -48,8 +48,11 @@ public class HexTokenAuthenticationFilter extends OncePerRequestFilter {
         if (authenticationHeaderValue != null && authenticationHeaderValue.startsWith("Hex ")) {
             final var rawToken = authenticationHeaderValue.trim().replaceAll("^Hex ", "");
             final var token = new String(Hex.decode(rawToken), StandardCharsets.UTF_8);
-            final var tokenParts = token.split(":");
-            final var authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(tokenParts[0], tokenParts[1]);
+            final var indexOfSeparator = token.indexOf(":");
+            final var authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(
+                    token.substring(0, indexOfSeparator),
+                    token.substring(indexOfSeparator + 1)
+            );
             try {
                 final var authenticationResult = authenticationManager.authenticate(authenticationRequest);
                 final var securityContext = securityContextHolderStrategy.createEmptyContext();

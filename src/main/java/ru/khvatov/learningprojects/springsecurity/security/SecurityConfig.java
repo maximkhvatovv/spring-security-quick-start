@@ -6,7 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
-import ru.khvatov.learningprojects.springsecurity.security.configurer.HexConfigurer;
+import ru.khvatov.learningprojects.springsecurity.security.configurer.HexConfigurerUsingSpringAuthenticationFilter;
+import ru.khvatov.learningprojects.springsecurity.security.converter.HexAuthenticationConverter;
 import ru.khvatov.learningprojects.springsecurity.security.filter.DenyAccessViaCurlClientFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -19,7 +20,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .addFilterBefore(new DenyAccessViaCurlClientFilter(), DisableEncodeUrlFilter.class)
-                .with(new HexConfigurer(), withDefaults())
+                .with(
+                        new HexConfigurerUsingSpringAuthenticationFilter(
+                                new HexAuthenticationConverter()
+                        ), withDefaults()
+                )
                 .httpBasic(withDefaults())
                 .build();
     }
